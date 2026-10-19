@@ -1,20 +1,25 @@
-# Dhyanam's CV Projects
+# Dhyanam's Python Projects
 
-Computer-vision and voice projects I built in Python, plus a web port so anyone can try them live.
+Computer vision, voice, NLP and desktop apps I built in Python, plus a web version so anyone can try them live.
 
 **Live demo:** https://jinnysudo.github.io/cv-projects/
 
-| Project | Python original | What it does |
+| Project | Source | What it does |
 |---|---|---|
 | Face Detection | `python/face_detection.py` | Webcam face detection with an OpenCV Haar cascade, draws a box on the first face |
 | Hand Gesture Recognition | `python/hand_gesture.py` | MediaPipe Hands, 21 landmarks per hand, counts raised fingers → Victory / Open Palm / Fist |
+| Classroom Noise Detector | `python/allinone.py` | Monitors mic volume, logs loud moments to `noise_log.csv` and snaps a webcam photo on each alert |
 | Mini Alexa | `python/mini_alexa.py` | Voice assistant: speech recognition + text-to-speech, time, Google, Wikipedia lookups, custom replies from `responses.json` |
-| Stopwatch | `python/stopwatch.py` | Tkinter stopwatch (HH:MM:SS, start / stop / reset), also packaged as a Windows .exe with PyInstaller |
+| Sentiment Analyzer | `python/sentiment_analysis.py` | Tkinter app that rates customer reviews Positive / Neutral / Negative with TextBlob |
+| Email Classifier | `python/spam.py` | Fetches Gmail over IMAP or reads `.txt` emails, scores keywords and sorts them into Spam / Promotional / Important, exports CSV |
+| To-Do List | `python/todolist.py` | Tkinter to-do app: add, delete, clear all |
+| Stopwatch | `python/stopwatch.py` | Tkinter stopwatch (HH:MM:SS), also packaged as a Windows .exe with PyInstaller |
+| Camera test | `python/opencv.py` | Minimal OpenCV webcam viewer |
 
 ## Run the Python versions
 
 ```
-pip install opencv-python mediapipe pyttsx3 SpeechRecognition pyaudio wikipedia
+pip install opencv-python mediapipe pyttsx3 SpeechRecognition pyaudio wikipedia textblob sounddevice numpy
 python python/hand_gesture.py
 ```
 
@@ -22,14 +27,14 @@ Face detection needs `haarcascade_frontalface_default.xml` next to the script (i
 
 ## How the web demo works
 
-Browsers can't run OpenCV/pyttsx3 Python directly, so the web version ports the same logic to JavaScript:
-
-- Face + hands: Google MediaPipe Tasks (BlazeFace and Hand Landmarker) running on-device in WebAssembly. The finger-counting rules are identical to the Python code (`gestures.js`).
-- Mini Alexa: Web Speech API for listening and speaking, Wikipedia's public API for lookups. Same command order as the Python version.
-- Stopwatch: same layout as the Tkinter window.
+- **Real Python in the browser:** the Sentiment Analyzer and Email Classifier run the actual Python code through Pyodide (Python compiled to WebAssembly). Sentiment uses the real TextBlob library; the email classifier executes the `classify_email()` function straight from `spam.py`.
+- **Face + hands:** Google MediaPipe Tasks (BlazeFace and Hand Landmarker) running on-device. Finger-counting rules are identical to the Python code (`js/gestures.js`).
+- **Noise detector:** Web Audio API, same volume formula (`norm(samples) * 10`), threshold, CSV log and snapshot-on-alert.
+- **Mini Alexa:** Web Speech API + Wikipedia's public API, same command order as the Python version.
+- **To-Do List / Stopwatch:** same layout and logic as the Tkinter windows.
 
 Camera and microphone never leave your device. Voice input works best in Chrome or Edge.
 
 ## AI usage
 
-Everything is my own work.
+The Python projects are my own work. The JavaScript web port was made with help from an AI assistant.

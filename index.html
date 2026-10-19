@@ -3,18 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dhyanam's CV Projects · Live Demo</title>
-<meta name="description" content="Face detection, hand gesture recognition, a voice assistant and a stopwatch: Python projects by Dhyanam Shah, running live in your browser.">
+<title>Dhyanam's Python Projects · Live Demo</title>
+<meta name="description" content="Computer vision, voice, NLP and desktop apps: Python projects by Dhyanam Shah, running live in your browser.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
-  <h1>Dhyanam's CV Projects</h1>
-  <p class="sub">Python computer-vision &amp; voice projects, ported to run live in your browser. Nothing is uploaded: camera and mic stay on your device.</p>
+  <h1>Dhyanam's Python Projects</h1>
+  <p class="sub">Computer vision, voice, NLP and desktop apps, all running live in your browser. Camera and mic never leave your device.</p>
   <nav id="tabs">
     <button data-tab="face" class="active">Face Detection</button>
     <button data-tab="hand">Hand Gestures</button>
+    <button data-tab="noise">Noise Detector</button>
     <button data-tab="alexa">Mini Alexa</button>
+    <button data-tab="sentiment">Sentiment</button>
+    <button data-tab="email">Email Classifier</button>
+    <button data-tab="todo">To-Do List</button>
     <button data-tab="stopwatch">Stopwatch</button>
   </nav>
 </header>
@@ -24,7 +28,7 @@
   <section id="face" class="panel active">
     <div class="info">
       <h2>Face Detection</h2>
-      <p>Finds the first face in your webcam feed and draws a box around it, just like <code>face_detection.py</code> (OpenCV Haar cascade). In the browser it uses Google's BlazeFace model.</p>
+      <p>Finds the first face in your webcam feed and draws a box around it, like <code>face_detection.py</code> (OpenCV Haar cascade). In the browser it uses Google's BlazeFace model.</p>
       <div class="controls">
         <button class="go" id="faceStart">Start camera</button>
         <button id="faceStop" disabled>Stop</button>
@@ -53,6 +57,35 @@
     <div class="stage"><canvas id="handCanvas" width="640" height="480"></canvas></div>
   </section>
 
+  <!-- NOISE -->
+  <section id="noise" class="panel">
+    <div class="info">
+      <h2>Classroom Noise Detector</h2>
+      <p>From <code>allinone.py</code>: listens to the mic, logs every loud moment to a CSV and snaps a webcam photo of whoever made the noise.</p>
+      <label class="row">Threshold: <input type="range" id="nzThreshold" min="2" max="60" value="10"> <b id="nzThrVal">10</b></label>
+      <label class="row"><input type="checkbox" id="nzCam" checked> Take a photo on each alert</label>
+      <div class="controls">
+        <button class="go" id="nzStart">Start monitoring</button>
+        <button id="nzStop" disabled>Stop</button>
+        <button id="nzCsv">Download noise_log.csv</button>
+      </div>
+    </div>
+    <div class="stage light">
+      <div class="tkwin w400">
+        <div class="tkbar">Classroom Noise Detector</div>
+        <div class="tkbody white">
+          <div id="nzStatus" class="tk14">Status: Press Start</div>
+          <div id="nzVolume" class="tk12">Volume: 0dB</div>
+          <div id="nzAlert" class="tkalert"></div>
+        </div>
+      </div>
+      <div class="side">
+        <table class="mini"><thead><tr><th>Time</th><th>Volume</th></tr></thead><tbody id="nzLog"></tbody></table>
+        <div id="nzShots" class="shots"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ALEXA -->
   <section id="alexa" class="panel">
     <div class="info">
@@ -71,16 +104,82 @@
     <div class="stage"><div id="alexaLog" class="log"></div></div>
   </section>
 
+  <!-- SENTIMENT -->
+  <section id="sentiment" class="panel">
+    <div class="info">
+      <h2>Consumer Sentiment Analyzer</h2>
+      <p><code>sentiment_analysis.py</code> running as <b>real Python</b> in your browser (Pyodide + TextBlob), so the scores match the desktop app exactly.</p>
+      <p class="status" id="sentStatus">Python loads the first time you click Analyze.</p>
+    </div>
+    <div class="stage light">
+      <div class="tkwin w400 h300">
+        <div class="tkbar">Consumer Sentiment Analyzer</div>
+        <div class="tkbody grey">
+          <div class="tk14">Enter Customer Review:</div>
+          <textarea id="sentInput" rows="5">The delivery was quick and the product quality is amazing!</textarea>
+          <button id="sentBtn" class="tkgreen">Analyze Sentiment</button>
+          <div id="sentOut" class="tk14"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL -->
+  <section id="email" class="panel">
+    <div class="info">
+      <h2>Email Classifier</h2>
+      <p>The keyword + scoring rules from <code>spam.py</code>, executed as the original Python via Pyodide. Sorts mail into <b>Spam</b>, <b>Promotional</b> or <b>Important</b>.</p>
+      <p>Comes with sample emails. Load your own <code>.txt</code> emails to test them. Gmail fetching needs the desktop app (browsers can't open IMAP connections).</p>
+    </div>
+    <div class="stage light col">
+      <div class="emtop">
+        <label class="filebtn">Load .txt files<input type="file" id="emLoad" accept=".txt" multiple hidden></label>
+        <button id="emSamples">Samples</button>
+        <button id="emSave">Save results to CSV</button>
+      </div>
+      <div id="emTitle" class="emtitle">No file loaded</div>
+      <pre id="emBody" class="embody"></pre>
+      <div id="emResult">Result: N/A</div>
+      <div id="emMatches" class="small">Matches: N/A</div>
+      <div class="emnav">
+        <button id="emPrev">Previous</button><button id="emClassify" class="go">Classify</button><button id="emNext">Next</button>
+        <span class="grow"></span><button id="emShuffle">Shuffle</button>
+      </div>
+      <div id="emStatus" class="small">Status: Ready</div>
+    </div>
+  </section>
+
+  <!-- TODO -->
+  <section id="todo" class="panel">
+    <div class="info">
+      <h2>To-Do List App</h2>
+      <p>The Tkinter app from <code>todolist.py</code>: add, select + delete, or clear all. Your list is saved in this browser.</p>
+    </div>
+    <div class="stage light">
+      <div class="tkwin w400 h400">
+        <div class="tkbar">To-Do List App</div>
+        <div class="tkbody grey top">
+          <div class="tkhead18">TO-DO LIST APP</div>
+          <div class="tk12">Add a to-do 😊.</div>
+          <input id="todoEntry" class="tkentry">
+          <button id="todoAdd" class="tkyellow">Add</button>
+          <ul id="todoList" class="tklist"></ul>
+          <div class="tkrow"><button id="todoDelete" class="tkred">Delete</button><button id="todoClear" class="tkred">Clear All</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- STOPWATCH -->
   <section id="stopwatch" class="panel">
     <div class="info">
       <h2>Stopwatch</h2>
-      <p>The Tkinter stopwatch app (<code>stopwatch.exe</code>), rebuilt for the web with the same layout: HH:MM:SS with Start, Stop and Reset.</p>
+      <p>The Tkinter stopwatch from <code>stopwatch.py</code> (also shipped as <code>stopwatch.exe</code> with PyInstaller), with the same layout and timing logic.</p>
     </div>
-    <div class="stage">
-      <div class="tkwin">
+    <div class="stage light">
+      <div class="tkwin w300 h300">
         <div class="tkbar">Stopwatch</div>
-        <div class="tkbody">
+        <div class="tkbody grey">
           <div class="tkhead">StopWatch</div>
           <div class="tktime" id="swTime">00:00:00</div>
           <div class="tkbtns">
@@ -92,11 +191,12 @@
       </div>
     </div>
   </section>
+
 </main>
 
 <footer>
   Made by Dhyanam Shah · <a href="https://github.com/jinnysudo/cv-projects">source on GitHub</a>
 </footer>
-<script type="module" src="app.js"></script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
