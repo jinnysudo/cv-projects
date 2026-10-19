@@ -7,7 +7,8 @@ let ready = null;
 async function setup() {
   status.textContent = "Loading Python + TextBlob (first time takes ~15s)…";
   const py = await getPython();
-  await py.loadPackage(["micropip", "regex", "sqlite3"]);
+  // NLTK (used by TextBlob) imports these stdlib modules, which Pyodide ships separately
+  await py.loadPackage(["micropip", "regex", "sqlite3", "ssl", "lzma", "hashlib", "pydoc_data"], { errorCallback: console.warn });
   const micropip = py.pyimport("micropip");
   await micropip.install("textblob");
   py.runPython(`
@@ -42,7 +43,8 @@ btn.onclick = async () => {
     status.textContent = polarity === null ? "" : `TextBlob polarity: ${polarity}`;
   } catch (e) {
     console.error(e); ready = null;
-    status.textContent = "Couldn't load Python: " + (e.message || e).toString().slice(0, 200);
+    const msg = String(e.message || e).trim().split("\n");
+    status.textContent = "Couldn't load Python: " + msg.slice(-2).join(" ").slice(-300);
   }
   btn.disabled = false;
 };
