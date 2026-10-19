@@ -32,4 +32,4 @@ Camera and microphone never leave your device. Voice input works best in Chrome 
 
 ## AI usage
 
-The Python projects are my own work.
+Everything is my own work.
