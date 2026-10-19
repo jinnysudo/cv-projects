@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dhyanam's CV Projects · Live Demo</title>
+<meta name="description" content="Face detection, hand gesture recognition, a voice assistant and a stopwatch: Python projects by Dhyanam Shah, running live in your browser.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Dhyanam's CV Projects</h1>
+  <p class="sub">Python computer-vision &amp; voice projects, ported to run live in your browser. Nothing is uploaded: camera and mic stay on your device.</p>
+  <nav id="tabs">
+    <button data-tab="face" class="active">Face Detection</button>
+    <button data-tab="hand">Hand Gestures</button>
+    <button data-tab="alexa">Mini Alexa</button>
+    <button data-tab="stopwatch">Stopwatch</button>
+  </nav>
+</header>
+
+<main>
+  <!-- FACE -->
+  <section id="face" class="panel active">
+    <div class="info">
+      <h2>Face Detection</h2>
+      <p>Finds the first face in your webcam feed and draws a box around it, just like <code>face_detection.py</code> (OpenCV Haar cascade). In the browser it uses Google's BlazeFace model.</p>
+      <div class="controls">
+        <button class="go" id="faceStart">Start camera</button>
+        <button id="faceStop" disabled>Stop</button>
+      </div>
+      <p class="status" id="faceStatus">Camera is off.</p>
+    </div>
+    <div class="stage"><canvas id="faceCanvas" width="640" height="480"></canvas></div>
+  </section>
+
+  <!-- HAND -->
+  <section id="hand" class="panel">
+    <div class="info">
+      <h2>Hand Gesture Recognition</h2>
+      <p>Tracks up to 2 hands (21 landmarks each), counts raised fingers and names the gesture, same logic as <code>hand_gesture.py</code>.</p>
+      <ul class="gestures">
+        <li><b>Victory</b> index + middle up</li>
+        <li><b>Open Palm</b> all five up</li>
+        <li><b>Fist</b> all fingers down</li>
+      </ul>
+      <div class="controls">
+        <button class="go" id="handStart">Start camera</button>
+        <button id="handStop" disabled>Stop</button>
+      </div>
+      <p class="status" id="handStatus">Camera is off.</p>
+    </div>
+    <div class="stage"><canvas id="handCanvas" width="640" height="480"></canvas></div>
+  </section>
+
+  <!-- ALEXA -->
+  <section id="alexa" class="panel">
+    <div class="info">
+      <h2>Mini Alexa</h2>
+      <p>A voice assistant from <code>mini_alexa.py</code>. Try: <i>"what's your name"</i>, <i>"who created you"</i>, <i>"what time is it"</i>, <i>"open google"</i>, <i>"who is Albert Einstein"</i>, <i>"tell me about Python"</i>, <i>"bye"</i>.</p>
+      <div class="controls">
+        <button class="go" id="alexaStart">Start talking</button>
+        <button id="alexaStop" disabled>Stop</button>
+      </div>
+      <form id="alexaForm">
+        <input id="alexaInput" placeholder="…or type a command" autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+      <p class="status" id="alexaStatus">Voice works best in Chrome or Edge.</p>
+    </div>
+    <div class="stage"><div id="alexaLog" class="log"></div></div>
+  </section>
+
+  <!-- STOPWATCH -->
+  <section id="stopwatch" class="panel">
+    <div class="info">
+      <h2>Stopwatch</h2>
+      <p>The Tkinter stopwatch app (<code>stopwatch.exe</code>), rebuilt for the web with the same layout: HH:MM:SS with Start, Stop and Reset.</p>
+    </div>
+    <div class="stage">
+      <div class="tkwin">
+        <div class="tkbar">Stopwatch</div>
+        <div class="tkbody">
+          <div class="tkhead">StopWatch</div>
+          <div class="tktime" id="swTime">00:00:00</div>
+          <div class="tkbtns">
+            <button id="swStart">START</button>
+            <button id="swStop">STOP</button>
+            <button id="swReset">RESET</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Made by Dhyanam Shah · <a href="https://github.com/jinnysudo/cv-projects">source on GitHub</a>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

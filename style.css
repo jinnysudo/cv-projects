@@ -1,0 +1,42 @@
+*{box-sizing:border-box}
+:root{--bg:#0f1117;--card:#181b24;--line:#2a2f3d;--text:#e8eaf0;--mute:#9aa1b2;--acc:#5ad1e0;--go:#35c27a}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+header{padding:28px 20px 0;max-width:1100px;margin:auto}
+h1{margin:0 0 4px;font-size:clamp(24px,4vw,34px)}
+.sub{margin:0 0 18px;color:var(--mute)}
+nav{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+nav button{background:none;border:0;border-bottom:3px solid transparent;color:var(--mute);padding:10px 14px;font:600 15px inherit;font-family:inherit;cursor:pointer}
+nav button.active{color:var(--text);border-color:var(--acc)}
+main{max-width:1100px;margin:auto;padding:20px}
+.panel{display:none;gap:24px;grid-template-columns:minmax(260px,1fr) 2fr;align-items:start}
+.panel.active{display:grid}
+@media(max-width:800px){.panel.active{grid-template-columns:1fr}}
+.info{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.info h2{margin:0 0 8px}
+.info p{color:#c9cdd8}
+code{background:#232838;padding:1px 6px;border-radius:5px;font-size:.9em}
+.controls{display:flex;gap:8px;margin:14px 0 6px;flex-wrap:wrap}
+button{background:#262b3a;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 16px;font:600 14px system-ui,sans-serif;cursor:pointer}
+button:hover:not(:disabled){border-color:var(--acc)}
+button:disabled{opacity:.45;cursor:default}
+button.go{background:var(--go);border-color:var(--go);color:#06150d}
+.status{font-size:14px;color:var(--mute);min-height:1.5em}
+.gestures{padding-left:18px;margin:6px 0;color:#c9cdd8}
+.stage{background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;justify-content:center;align-items:center;min-height:320px}
+canvas{width:100%;height:auto;display:block}
+.log{width:100%;height:420px;overflow-y:auto;padding:16px;background:var(--card);font-family:ui-monospace,Consolas,monospace;font-size:14px}
+.log div{margin:0 0 8px;white-space:pre-wrap}
+.log .you{color:#9fd7ff}.log .bot{color:#b6f5c9}.log .sys{color:var(--mute)}
+#alexaForm{display:flex;gap:8px;margin-top:10px}
+#alexaForm input{flex:1;min-width:0;background:#10131b;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:14px}
+#stopwatch .stage{background:var(--card);padding:30px}
+.tkwin{width:300px;height:300px;background:#f0f0f0;color:#000;border:1px solid #888;box-shadow:0 10px 30px #0008;display:flex;flex-direction:column}
+.tkbar{background:#fff;border-bottom:1px solid #ccc;padding:6px 10px;font:13px Segoe UI,sans-serif}
+.tkbody{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.tkhead{font:bold 24px Arial,sans-serif}
+.tktime{font:bold 40px Arial,sans-serif;letter-spacing:1px}
+.tkbtns{display:flex;gap:10px}
+.tkbtns button{background:#e1e1e1;color:#000;border:1px solid #adadad;border-radius:0;padding:4px 10px;width:70px;font:12px Segoe UI,sans-serif}
+.tkbtns button:hover{background:#e5f1fb;border-color:#0078d7}
+footer{max-width:1100px;margin:auto;padding:10px 20px 30px;color:var(--mute);font-size:14px}
+footer a{color:var(--acc)}
